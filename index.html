@@ -1,0 +1,278 @@
+<!DOCTYPE html>
+<html>
+<head>
+		<link rel="icon" type="image/x-icon" href="img/listicon.ico">
+	<title>To Do List</title>
+</head>
+<style>
+
+.todovalue {
+    width:58%;
+    padding-left: 15px;
+}
+	
+#submit_todo{
+		width: 20%;
+}
+
+table {
+  font-family: arial, sans-serif;
+  border-collapse: collapse;
+  width: 80%;
+  background-color: rgb(207, 207, 207);
+}
+
+thead{
+	background-color: white;
+}
+
+td, th {
+  border: 2px solid #000000;
+  text-align: center;
+  padding: 8px;
+}
+
+/*tr:nth-child(even) {
+  background-color: #dddddd;
+}*/
+.error {
+  border-color: red;
+}
+
+
+#container{
+
+	background-color: rgb(247, 240, 240);
+	padding-top: 10px;
+	padding-bottom: 30px;
+	border-radius: 15px;
+	box-shadow: 5px 5px;
+	min-height: 450px;
+
+}
+#content{
+	margin-top: 8%;
+	margin-left: 10%;
+	margin-right: 10%;
+}
+
+h1{
+	text-align: center;
+	font-family: Arial Black;
+
+}
+
+input#todovalue{
+	height: 30px;
+	border: none;
+  	border-bottom: 1px solid black;
+}
+
+
+</style>
+<body>
+<div id="content">
+       <div id="container" >
+              <div class="card-header card-header-primary text-center">
+                <h1 class="card-title">THINGS TO DO</h1>
+              </div>
+              <br>
+              <div class="card-body" style="padding-left:200px;">
+
+
+
+
+	<input type="text" name="todovalue" id="todovalue" class="todovalue" placeholder="enter task here . . ." style="width:58%;padding-left: 15px;">
+	&nbsp;
+    <input type="submit" value="Submit" id="submit_todo" class="todovalue" onclick="addRow()" style="width:19%;height: 30px;">
+	                  
+
+
+                  <div class="container">
+                    <div class="row">
+                      <br>
+                    </div>
+                    <div class="row">
+                      <div class="col-lg-12">
+                        <table id="todoTable" class="table table-bordered table-condensed table-striped">
+                          <thead>
+                            <tr>
+                              <th colspan = 3>Action</th>
+                              <th>Things to do</th>
+                              <th>Status</th>
+                            </tr>
+                          </thead>
+                        </table>
+                      </div>
+                    </div>
+                  </div>
+              </div>
+            </div>
+
+
+</div>
+</body>
+<script type="text/javascript">
+	function addRow() { //Function for Submit of To do also acts as an add row to the table
+        var todotable = document.getElementById('todoTable');
+        var todovalue=document.getElementById("todovalue").value;  
+
+        var totalRowCount = 0;
+		var rowCount = 0;
+		var table = document.getElementById("todoTable");
+		var rows = table.getElementsByTagName("tr")
+		for (var i = 0; i < rows.length; i++) {
+			if (rows[i].getElementsByTagName("td").length > 0) {
+				rowCount++;
+				totalRowCount++;
+			}
+		}
+		var newrowCount = rowCount+1; // This adds 1 to the current row count
+
+        var tr = todotable.insertRow(newrowCount); // This inserts a new row to the table todoTable
+
+        // This sets the attribute to the rows being created
+        tr.setAttribute('id','tr_'+newrowCount);
+        tr.setAttribute('seq',+newrowCount);
+
+        if (todovalue != '') { // This condition is to check if the input box of To Do has a value 
+	    	document.getElementById('todovalue').removeAttribute('class', 'error');  // This removes the redline once the input of todo is submitted with value
+	        for (var c = 0; c < 5; c++) {
+	            var td = document.createElement('td');
+	            td = tr.insertCell(c);
+
+	        	if (c == 0) {
+	        		// This creates a button
+	        		var button1 = document.createElement('input');
+
+	                // This sets attribute to the button being created
+	                button1.setAttribute('type', 'button');
+	                button1.setAttribute('id', 'updatebtn_'+newrowCount);
+	                button1.setAttribute('class', 'updatebtn_'+newrowCount);
+	                button1.setAttribute('seq', +newrowCount);
+	                button1.setAttribute('value', 'Update');
+
+	                // This adds a function updaterow to the button being created
+	                button1.setAttribute('onclick', 'updateRow(this)');
+
+	                // This adds the button to the rows 1st column
+	                td.appendChild(button1);
+	            }
+	            if (c == 1) {
+	                 // This creates a button
+	                var button2 = document.createElement('input');
+
+	                // This sets attribute to the button being created
+	                button2.setAttribute('type', 'button');
+	                button2.setAttribute('id', 'removebtn_'+newrowCount);
+	                button2.setAttribute('class', 'removebtn_'+newrowCount);
+	                button2.setAttribute('seq', +newrowCount);
+	                button2.setAttribute('value', 'Remove');
+
+	                // This adds a function removerow to the button being created
+	                button2.setAttribute('onclick', 'removeRow(this)');
+
+	                // This adds the button to the rows 2nd column
+	                td.appendChild(button2);
+	            }
+	            if (c == 2) {
+	                 // This creates a button
+	                var button3 = document.createElement('input');
+
+	                // This sets attribute to the button being created
+	                button3.setAttribute('type', 'button');
+	                button3.setAttribute('id', 'donebtn_'+newrowCount);
+	                button3.setAttribute('class', 'donebtn_'+newrowCount);
+	                button3.setAttribute('seq', +newrowCount);
+	                button3.setAttribute('value', 'Done');
+
+	                // This adds a function donerow to the button being created
+	                button3.setAttribute('onclick', 'doneRow(this)');
+
+	                // This adds the button to the rows 3rd column
+	                td.appendChild(button3);
+	            }
+	            if (c == 3) {
+	                // This creates an input box
+	                var ele1 = document.createElement('input');
+
+	                // This sets attribute to the input box being created
+	                ele1.setAttribute('id', 'todolist_'+newrowCount);
+	                ele1.setAttribute('class', 'todolist_'+newrowCount);
+	                ele1.setAttribute('seq', +newrowCount);
+	                ele1.setAttribute('type', 'text');
+	                ele1.setAttribute('disabled', true);
+	                ele1.setAttribute('value', todovalue);
+
+	                ele1.setAttribute('onblur', 'savethis(this)');
+
+	                // This adds the input box to the rows 4th column
+	                td.appendChild(ele1);
+	            }
+	            if (c == 4) {
+	                // This creates a label
+	                var ele2 = document.createElement('label');
+
+	                // This sets the attribute to the label being created
+					ele2.setAttribute('id', 'todostats_'+newrowCount);
+					ele2.setAttribute('class', 'todostats_'+newrowCount);
+					ele2.setAttribute('seq', +newrowCount);
+					ele2.setAttribute('type', 'text');
+					ele2.innerHTML = 'New';
+
+					// This adds the label to the rows 6th column
+	                td.appendChild(ele2);
+	            }
+	           
+	        }
+	    }
+	    else { // This condition is for the to do input box if it is blank
+	    	alert('To Do field must not be blank!');
+	    	document.getElementById("todovalue").setAttribute("class", "error");
+	    }
+	    document.getElementById("todovalue").value = '';  
+    }
+
+ 	function removeRow(oButton) { // This function removes a selected row
+        var todotable = document.getElementById('todoTable');
+        todotable.deleteRow(oButton.parentNode.parentNode.rowIndex); // This function deletes the selected row to the table
+    }
+
+    function doneRow(oButton) { // This function sets row as Done
+        var table = document.getElementById('todoTable');
+	    var rowsNotSelected = table.getElementsByTagName('tr');
+	    var seq = oButton.getAttribute('seq');
+		var todolist = document.getElementById('todolist_'+seq).value;
+		rowsNotSelected[seq].style.backgroundColor = "gray";
+        document.getElementById('updatebtn_'+seq).setAttribute('disabled', true);
+        document.getElementById('donebtn_'+seq).setAttribute('disabled', true);
+        document.getElementById('todolist_'+seq).setAttribute('disabled', true);
+    	document.getElementById('todostats_'+seq).innerHTML = 'Done';
+		alert("Task Done!");
+    }
+
+    function updateRow(oButton) { // This function sets a selected row ready for update
+		var seq = oButton.getAttribute('seq');
+		var todolist = document.getElementById('todolist_'+seq).value;
+		document.getElementById('todolist_'+seq).removeAttribute('disabled'); 
+		alert('You can now update: '+todolist);
+    }
+	
+    function savethis(oButton) { // This function sets a selected row to be saved after update
+		var seq = oButton.getAttribute('seq');
+		var todolist = document.getElementById('todolist_'+seq).value;
+        document.getElementById('todolist_'+seq).setAttribute('disabled', true);
+    	document.getElementById('todostats_'+seq).innerHTML = 'Updated';
+		alert('Done Updating!');
+    }
+
+    // This code makes the enter key act like the submit button being clicked 
+	var input = document.getElementById("todovalue");
+	input.addEventListener("keyup", function(event) {
+		if (event.keyCode === 13) {
+			event.preventDefault();
+			document.getElementById("submit_todo").click();
+		}
+	});
+</script>
+</html>
